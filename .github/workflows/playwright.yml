@@ -1,0 +1,95 @@
+name: E2E+API
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run API tests
+        run: |
+          mkdir -p allure-results
+          npx playwright test --grep "@api"
+        continue-on-error: true
+
+      - name: Upload API results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-api
+          path: allure-results/
+          if-no-files-found: warn
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Create allure-results directory
+        run: mkdir -p allure-results
+
+      - name: Run E2E tests
+        run: npx playwright test --grep "@PO"
+        continue-on-error: true
+
+      - name: Debug E2E results
+        run: |
+          echo "=== Checking E2E results ==="
+          ls -la . || true
+          ls -la allure-results/ || echo "No allure-results directory"
+          find . -name "*.json" -type f | grep -v node_modules | head -10 || echo "No JSON files found"
+
+      - name: Upload E2E results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-e2e
+          path: allure-results/
+          if-no-files-found: warn
+
+      - name: Send Telegram notification
+          uses: appleboy/telegram-action@v1.0.1
+          if: always()
+          with:
+            to: ${{ secrets.TELEGRAM_CHAT_ID }}
+            token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+            message: |
+              📦 *Результаты автотестов* 
+              🎯 Репозиторий: ${{ github.repository }}
+              🔄 Ветка: ${{ github.ref_name }}
+              🕐 Время: ${{ github.event.created_at || github.run_started_at }}
+              ✅ Статус: ${{ job.status }}
+              
+              ${{ steps.playwright.conclusion == 'success' && '🟢 Все тесты прошли!' || '🔴 Тесты упали!' }}
+              📊 Пройдено: ${{ env.PASSED }} / ${{ env.TOTAL }}
+              
+              🔗 [Посмотреть логи](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+              📊 [Посмотреть Allure отчёт](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/allure-report)
+            format: markdown
