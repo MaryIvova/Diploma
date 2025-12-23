@@ -50,7 +50,7 @@ jobs:
         - name: Run PW test
           run: npm run test
         # сохраняем отчет pw
-        - uses: actions/upload-artifact@v4s
+        - uses: actions/upload-artifact@v4
           if: always()
           continue-on-error: true
           with:
