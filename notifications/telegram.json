@@ -1,0 +1,19 @@
+{
+  "base": {
+    "logo": "",
+    "project": "JA QA Guru",
+    "environment": "some env",
+    "comment": "some comment",
+    "reportLink": "",
+    "language": "en",
+    "allureFolder": "allure-report",
+    "enableChart": true,
+    "enableSuitesPublishing": false,
+    "customData": {}
+  },
+  "telegram": {
+    "token": "8464473290:AAEZMaSXOt7bn_c1y4iI2byzuNDTeCsXkCM",
+    "chat": "-5036227905",
+    "replyTo": ""
+  }
+}

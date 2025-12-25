@@ -15,14 +15,16 @@ export class ArticleEdit extends MyArticlesPage {
         return this.page.locator(`//*[text()='${text}']`);
     };
     async editCreatedArticle(article) {
-        const locator = this.getArticlePreview(article.title);
-        await locator.click();
-        await expect(this.buttonEdit).toBeVisible();
-        await this.buttonEdit.click();
-        await this.articleDescription2.click();
-        await this.articleDescription2.fill(article.description);
-        await this.buttonUpdate.click();
-    }
+        return test.step('Edite articled article', async (step) => {
+            const locator = this.getArticlePreview(article.title);
+            await locator.click();
+            await expect(this.buttonEdit).toBeVisible();
+            await this.buttonEdit.click();
+            await this.articleDescription2.click();
+            await this.articleDescription2.fill(article.description);
+            await this.buttonUpdate.click();
+        });
+      }
 
     async deleteArticle(article) {
         const locator = this.getArticlePreview(article.title);

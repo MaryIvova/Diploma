@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test",
+    "testEnv": "export NODE_ENV=auto-test npx playwright test",
     "testUI": "npx playwright test --ui",
     "testAPI": "npx playwright test --grep @api",
     "testE2E": "npx playwright test --grep @PO",
@@ -13,7 +14,9 @@
     "testDELETE": "npx playwright test --grep @DELETE",
     "testPUT": "npx playwright test --grep @PUT",
     "report": "npx playwright show-report",
-    "allureFile": "npx allure awesome ./allure-results --single-file"
+    "allureFile": "npx allure awesome ./allure-results --single-file",
+    "allureGenerate": "allure generate --clean",
+    "allureOpen": "allure open allure-report"
   },
   "keywords": [],
   "author": "",

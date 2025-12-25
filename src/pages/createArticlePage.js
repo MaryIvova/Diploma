@@ -1,5 +1,6 @@
-import { expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { title } from 'process';
+
 
 export class ArticleCreation {
     constructor(page) {
@@ -13,14 +14,16 @@ export class ArticleCreation {
     }
 
     async createArticle(article) {
-        const { title, description, text, tags } = article;
-        await this.buttonNewArticle.click();
-        //await expect(this.articleTitle).toBeVisible();
-        await this.articleTitle.fill(title);
-        await this.articleDescription.click();
-        await this.articleDescription.fill(description);
-        await this.articleText.fill(text);
-        await this.articleTags.fill(tags);
-        await this.publishButton.click();
+        return test.step('Create article', async (step) => {
+            const {title, description, text, tags} = article;
+            await this.buttonNewArticle.click();
+            //await expect(this.articleTitle).toBeVisible();
+            await this.articleTitle.fill(title);
+            await this.articleDescription.click();
+            await this.articleDescription.fill(description);
+            await this.articleText.fill(text);
+            await this.articleTags.fill(tags);
+            await this.publishButton.click();
+        });
     }
 }
