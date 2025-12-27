@@ -12,7 +12,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test.only('Edit My articles @PO', async ({ page }) => {
+    test('Edit My articles @PO', async ({ page }) => {
         const article = new ArticleBuilder()
             .addTitle()
             .addDescription()
