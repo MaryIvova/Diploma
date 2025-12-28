@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
 export class HomePage {
     constructor(page) {
@@ -16,18 +16,24 @@ export class HomePage {
     }
 
     async openTag(tag) {
-        await this.getTagByText(tag).click();
+        return test.step(`Open tag  `, async (step) => {
+            await this.getTagByText(tag).click();
+        });
     }
 
     async openPage(pageNumber, title) {
-        await this.pageButton(pageNumber).click();
-        const activePage = this.pagination.locator(
-            `.page-item.active >> a[aria-label*="Page ${pageNumber}"]`,
-        );
-        await expect(activePage).toBeVisible();
+        return test.step(`open last page  `, async (step) => {
+            await this.pageButton(pageNumber).click();
+            const activePage = this.pagination.locator(
+                `.page-item.active >> a[aria-label*="Page ${pageNumber}"]`,
+            );
+            await expect(activePage).toBeVisible();
+        });
     }
 
     async likeArticle(title) {
-        await this.likeButton(title).click();
+        return test.step(`Like Article  `, async (step) => {
+            await this.likeButton(title).click();
+        });
     }
 }

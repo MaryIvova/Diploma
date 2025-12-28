@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
 export class FavoritesPage {
     constructor(page) {
@@ -9,10 +9,14 @@ export class FavoritesPage {
     }
 
     async checkFavorites(title) {
-        await this.buttonFavorites.click();
+        return test.step(`Check favorites `, async (step) => {
+            await this.buttonFavorites.click();
+        });
     }
 
     async unLikeArticle(title) {
-        await this.likeButton(title).click();
+        return test.step(`Unlike Article`, async (step) => {
+            await this.likeButton(title).click();
+        });
     }
 }

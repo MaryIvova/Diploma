@@ -1,13 +1,13 @@
 import { defineConfig } from "allure";
 
 export default defineConfig({
-    name: "Allure Report 3",
+    name: "Allure Report Example",
     output: "./out/allure-report",
     plugins: {
-        log: {
+        awesome: {
             options: {
-                groupBy: "none",
-                filter: ({ status }) => status === "failed" || status === "broken",
+                singleFile: false,
+                reportLanguage: "en",
             },
         },
     },

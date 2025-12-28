@@ -15,7 +15,7 @@ export class ArticleEdit extends MyArticlesPage {
         return this.page.locator(`//*[text()='${text}']`);
     };
     async editCreatedArticle(article) {
-        return test.step('Edite articled article', async (step) => {
+        return test.step(`Edite articled article`, async (step) => {
             const locator = this.getArticlePreview(article.title);
             await locator.click();
             await expect(this.buttonEdit).toBeVisible();
@@ -27,6 +27,7 @@ export class ArticleEdit extends MyArticlesPage {
       }
 
     async deleteArticle(article) {
+        return test.step(`Create article`, async (step) => {
         const locator = this.getArticlePreview(article.title);
         await locator.click();
         const button = this.buttonDelete;
@@ -35,5 +36,6 @@ export class ArticleEdit extends MyArticlesPage {
             dialog.accept();
         });
         await button.click();
+        });
     }
 }

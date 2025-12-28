@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
 export class LogInPage {
     constructor(page) {
@@ -10,10 +10,12 @@ export class LogInPage {
     }
 
     async userLogIn() {
-        await this.userLogInButton.click();
-        await this.emailField.fill('muravjed@list.ru');
-        await this.pwdField.click();
-        await this.pwdField.fill('Asdasd,123');
-        await this.loginButton.click();
+        return test.step(`current user log in  `, async (step) => {
+            await this.userLogInButton.click();
+            await this.emailField.fill('muravjed@list.ru');
+            await this.pwdField.click();
+            await this.pwdField.fill('Asdasd,123');
+            await this.loginButton.click();
+        });
     }
 }

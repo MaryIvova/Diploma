@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
 export class ProfilePage {
     constructor(page) {
@@ -9,7 +9,9 @@ export class ProfilePage {
     }
 
     async pageProfileopen() {
-        await this.userButton.click();
-        await this.buttonProfile.click();
+        return test.step(`open profile page  `, async (step) => {
+            await this.userButton.click();
+            await this.buttonProfile.click();
+        });
     }
 }

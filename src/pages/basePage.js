@@ -1,4 +1,3 @@
-
 import { test } from '@playwright/test';
 const URL = 'https://realworld.qa.guru/';
 

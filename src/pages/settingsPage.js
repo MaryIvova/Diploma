@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
 export class SettingsPage {
     constructor(page) {
@@ -9,7 +9,9 @@ export class SettingsPage {
     }
 
     async profileEdit() {
-        await this.userButton.click();
-        await this.settingsLink.click();
+        return test.step(`Edit profile  `, async (step) => {
+            await this.userButton.click();
+            await this.settingsLink.click();
+        });
     }
 }

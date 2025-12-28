@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 import { title } from 'process';
 
 export class MyArticlesPage {
@@ -12,13 +12,17 @@ export class MyArticlesPage {
         return this.page.locator(`//*[text()='${text}']`);
     };
     async checkCreatedArticle(article) {
-        const locator = this.getArticlePreview(article.title);
-        return locator;
+        return test.step(`Check created article `, async (step) => {
+            const locator = this.getArticlePreview(article.title);
+            return locator;
+        });
     }
 
     async checkDeletedArticle(article) {
-        await this.userButton.click();
-        await expect(this.dropDownProfile).toBeVisible();
-        await this.buttonProfile.click();
+        return test.step(`Check deleted article`, async (step) => {
+            await this.userButton.click();
+            await expect(this.dropDownProfile).toBeVisible();
+            await this.buttonProfile.click();
+        });
     }
 }
