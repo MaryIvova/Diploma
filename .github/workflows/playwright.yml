@@ -97,3 +97,15 @@ jobs:
         with:
           name: allure-results-e2e
           path: downloaded-e2e-results
+
+      - name: Send Telegram Notification
+        uses: Allure_for_QA/telegram-action@master
+        if: always()
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            Прогон тестов закончен!
+            Job - ${{ github.job }}.
+            Статус прогона - ${{ job.status }}
+            Ссылка на Allure отчет: ${{ steps.allure_upload.outputs.report_link }}
