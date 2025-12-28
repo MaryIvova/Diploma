@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { LogInPage, SettingsPage } from '../../src/pages/index';
+import { LogInPage, SettingsPage } from '../src/pages';
 
 const URL = 'https://realworld.qa.guru';
 

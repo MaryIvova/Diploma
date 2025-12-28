@@ -1,8 +1,13 @@
 import { faker } from '@faker-js/faker';
-import { expect } from '@playwright/test';
-import { ArticleBuilder } from '../../src/builders/index';
-import { LogInPage, ArticleCreation, MyArticlesPage, ProfilePage } from '../../src/pages/index';
-import { test } from '../../src/fixture_PO/index';
+import { test, expect } from '@playwright/test';
+import { ArticleBuilder } from '../src/builders';
+import {
+    ArticleCreation,
+    MyArticlesPage,
+    ArticleEdit,
+    LogInPage,
+    ProfilePage,
+} from '../src/pages';
 
 const URL = 'https://realworld.qa.guru';
 
@@ -13,7 +18,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test('New Article @PO', async ({ page }) => {
+    test('Delete My articles @PO', async ({ page }) => {
         const article = new ArticleBuilder()
             .addTitle()
             .addDescription()
@@ -21,21 +26,7 @@ test.describe('Логин', () => {
             .addTags()
             .generate();
 
-        const newArticle = new ArticleCreation(page);
-        await newArticle.createArticle(article);
-        expect(newArticle.articleTT).toBeVisible;
-    });
 
-    /* await webApp.articleCreate.createArticle(articleData);
-        expect(webApp.articleCreate.articleTT).toBeVisible;*/
-
-    test('Check My articles @PO', async ({ page }) => {
-        const article = {
-            title: faker.word.adjective(),
-            description: faker.word.adjective(),
-            text: faker.lorem.lines(3),
-            tags: faker.word.adjective(),
-        };
         const newArticle = new ArticleCreation(page);
         await newArticle.createArticle(article);
 
@@ -46,5 +37,14 @@ test.describe('Логин', () => {
         await myArticlesPage.checkCreatedArticle(article);
         const locator = myArticlesPage.getArticlePreview(article.title);
         await expect(locator).toHaveText(article.title);
+
+        const editArticte = new ArticleEdit(page);
+        await editArticte.deleteArticle(article);
+
+        const deletedArticle = new MyArticlesPage(page);
+        const locator2 = myArticlesPage.getArticlePreview(article.title);
+        await expect(locator2).toHaveText(article.title);
+        await deletedArticle.checkDeletedArticle(article);
+        await expect(locator2).toBeHidden();
     });
 });

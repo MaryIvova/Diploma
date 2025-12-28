@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { LogInPage, HomePage, FavoritesPage, ProfilePage } from '../../src/pages/index';
+import { LogInPage, HomePage, FavoritesPage, ProfilePage } from '../src/pages';
 
 const URL = 'https://realworld.qa.guru';
 const lastPage = 29;

@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { test, expect } from '@playwright/test';
-import { ArticleBuilder } from '../../src/builders/index';
-import { ArticleCreation, MyArticlesPage, ArticleEdit, LogInPage } from '../../src/pages/index';
+import { ArticleBuilder } from '../src/builders';
+import { ArticleCreation, MyArticlesPage, ArticleEdit, LogInPage } from '../src/pages';
 
 const URL = 'https://realworld.qa.guru';
 
