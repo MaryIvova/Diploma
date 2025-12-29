@@ -195,11 +195,11 @@ jobs:
           retention-days: 30
 
       - name: Deploy Allure report to GitHub Pages
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        if: steps.check_results.outputs.has_results == 'true' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          publish_branch: gh-pages
           publish_dir: ./allure-report
-          destination_dir: ./allure-report
-          keep_files: false
+          force_orphan: true
 
