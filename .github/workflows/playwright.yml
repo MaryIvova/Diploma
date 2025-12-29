@@ -146,13 +146,41 @@ jobs:
           name: allure-results-e2e
           path: test-results/e2e
 
-      - name: Merge Allure results
+      - name: Check if results exist
+        id: check_results
         run: |
-          mkdir -p allure-results
-          find test-results -name "*.json" -exec cp {} allure-results/ \;
-          find test-results -name "*.txt" -exec cp {} allure-results/ \;
-          find test-results -name "*.png" -exec cp {} allure-results/ \;
-          find test-results -name "*.webm" -exec cp {} allure-results/ \;
+            API_FILES=$(find test-results/api -name "*.json" -o -name "*.txt" -o -name "*.png" -o -name "*.webm" 2>/dev/null | wc -l)
+            E2E_FILES=$(find test-results/e2e -name "*.json" -o -name "*.txt" -o -name "*.png" -o -name "*.webm" 2>/dev/null | wc -l)
+            TOTAL_FILES=$((API_FILES + E2E_FILES))
+            echo "API files: $API_FILES"
+            echo "E2E files: $E2E_FILES"
+            echo "Total files: $TOTAL_FILES"
+            
+            if [ $TOTAL_FILES -eq 0 ]; then
+              echo "No test results found"
+              echo "has_results=false" >> $GITHUB_OUTPUT
+            else
+              echo "has_results=true" >> $GITHUB_OUTPUT
+            fi    
+
+      - name: Merge Allure results
+        if: steps.check_results.outputs.has_results == 'true'
+        run: |
+            # Копируем результаты только если они существуют
+            if [ -d "test-results/api" ]; then
+              find test-results/api -name "*.json" -exec cp {} allure-results/ \;
+              find test-results/api -name "*.txt" -exec cp {} allure-results/ \;
+              find test-results/api -name "*.png" -exec cp {} allure-results/ \;
+              find test-results/api -name "*.webm" -exec cp {} allure-results/ \;
+            fi
+            
+            if [ -d "test-results/e2e" ]; then
+              find test-results/e2e -name "*.json" -exec cp {} allure-results/ \;
+              find test-results/e2e -name "*.txt" -exec cp {} allure-results/ \;
+              find test-results/e2e -name "*.png" -exec cp {} allure-results/ \;
+              find test-results/e2e -name "*.webm" -exec cp {} allure-results/ \;
+            fi
+      
 
       - name: Generate Allure report
         run: |
