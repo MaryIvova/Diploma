@@ -10,8 +10,6 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-latest
-    outputs:
-      cache-key: ${{ steps.cache-node-modules.outputs.cache-primary-key }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,31 +17,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          node-version: lts/*
 
       - name: Get npm cache directory
         id: npm-cache-dir
         run: |
           echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
-
-      - name: Cache npm dependencies
-        uses: actions/cache@v4
-        id: cache-npm
-        with:
-          path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        id: cache-playwright
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-
 
       - name: Install dependencies
         run: npm ci
@@ -61,14 +40,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Restore npm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ needs.setup.outputs.cache-key }}
+          node-version: lts/*
 
       - name: Install dependencies
         run: npm ci
@@ -110,13 +82,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Restore Playwright browsers cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ needs.setup.outputs.cache-key }}
+          node-version: lts/*
 
       - name: Install dependencies
         run: npm ci
@@ -159,7 +125,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: lts/*
 
       - name: Install dependencies
         run: |
@@ -209,26 +175,3 @@ jobs:
           destination_dir: ./allure-report
           keep_files: false
 
-      - name: Send Telegram Notification
-        uses: appleboy/telegram-action@master
-        if: always()
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            🧪 *Playwright Tests Completed*
-            
-            *Repository:* ${{ github.repository }}
-            *Workflow:* ${{ github.workflow }}
-            *Branch:* ${{ github.ref_name }}
-            *Commit:* ${{ github.sha }}
-            
-            *Results:*
-            - API Tests: ${{ needs.api.result }}
-            - E2E Tests: ${{ needs.e2e.result }}
-            
-            *Links:*
-            - Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            - Allure Report: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/allure-report
-            
-            *Triggered by:* ${{ github.actor }}
