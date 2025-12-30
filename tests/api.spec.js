@@ -7,7 +7,7 @@ import { json } from 'stream/consumers';
 
 let token;
 
-test.describe('Challenge', () => {
+test.describe('Challenge @api', () => {
     test.beforeAll(async ({ api }, testinfo) => {
         let r = await api.challenger.post(testinfo);
         const headers = r.headers();
