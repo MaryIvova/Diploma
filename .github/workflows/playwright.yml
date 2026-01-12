@@ -194,12 +194,44 @@ jobs:
           path: allure-report/
           retention-days: 30
 
-      - name: Deploy Allure report to GitHub Pages
-        if: steps.check_results.outputs.has_results == 'true' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Install and configure allurectl
+        uses: allure-framework/setup-allurectl@v1.0.2
+        if: always()
         with:
-          deploy_key: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./allure-report
-          force_orphan: true
+          allure-endpoint: https://allure.autotests.cloud
+          allure-token: ${{ secrets.ALLURE_API_TOKEN }}
+          allure-project-id: 5064
+
+      - name: Upload results to Allure TestOps
+        id: allure_upload
+        if: always()
+        env:
+          ALLURE_PROJECT_ID: 5064
+          ALLURE_ENDPOINT: https://allure.autotests.cloud
+          ALLURE_API_TOKEN: ${{ secrets.ALLURE_API_TOKEN }}
+        run: |
+          RAW_LINK=$(allurectl upload ./allure-results \
+            --endpoint $ALLURE_ENDPOINT \
+            --token $ALLURE_API_TOKEN \
+            --project-id $ALLURE_PROJECT_ID | grep "Report link:")
+          # Извлекаем чистую ссылку HTTP/HTTPS из строки
+          FULL_LINK=$(echo "$RAW_LINK" | grep -o 'https\?://[^ ]*' | head -1 | tr -d '[:space:]')
+          if [[ -n "$FULL_LINK" ]]; then
+            echo "report_link=$FULL_LINK" >> $GITHUB_OUTPUT
+          else
+            echo "No report link found"
+            exit 1
+          fi
+
+      - name: Send Telegram Notification
+        uses: appleboy/telegram-action@master
+        if: always()
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            Прогон тестов закончен!
+            Job - ${{ github.job }}.
+            Статус прогона - ${{ job.status }}
+            Ссылка на Allure отчет: ${{ steps.allure_upload.outputs.report_link }}
 
