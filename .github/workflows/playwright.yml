@@ -60,7 +60,7 @@ jobs:
         if: always()
         with:
           name: allure-results-api
-          path: allure-results-api/
+          path: allure-results/
           retention-days: 7
 
       - name: Upload Playwright report
@@ -103,7 +103,7 @@ jobs:
         if: always()
         with:
           name: allure-results-e2e
-          path: allure-results-e2e/
+          path: allure-results/
           retention-days: 7
 
       - name: Upload Playwright HTML report
