@@ -166,6 +166,7 @@ jobs:
       - name: Merge Allure results
         if: steps.check_results.outputs.has_results == 'true'
         run: |
+            mkdir -p allure-results
             # Копируем результаты только если они существуют
             if [ -d "test-results/api" ]; then
               find test-results/api -name "*.json" -exec cp {} allure-results/ \;
@@ -225,6 +226,7 @@ jobs:
 
       - name: Send Telegram Notification
         uses: appleboy/telegram-action@master
+        run:
         if: always()
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
