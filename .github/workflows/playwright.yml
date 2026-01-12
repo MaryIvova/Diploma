@@ -226,7 +226,6 @@ jobs:
 
       - name: Send Telegram Notification
         uses: appleboy/telegram-action@master
-        run:
         if: always()
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
