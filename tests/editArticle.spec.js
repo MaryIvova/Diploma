@@ -12,7 +12,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test('Edit My articles @PO', async ({ page }) => {
+    test('Edit My articles @e2e', async ({ page }) => {
         const article = new ArticleBuilder()
             .addTitle()
             .addDescription()
@@ -30,9 +30,9 @@ test.describe('Логин', () => {
 
         article.description = faker.word.adjective();
 
-        const editArticte = new ArticleEdit(page);
-        const locator2 = editArticte.getArticlePreview(article.title);
+        const editArticle = new ArticleEdit(page);
+        const locator2 = editArticle.getArticlePreview(article.title);
         await expect(locator2).toHaveText(article.title);
-        await editArticte.editCreatedArticle(article);
+        await editArticle.editCreatedArticle(article);
     });
 });

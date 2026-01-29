@@ -6,7 +6,7 @@
     "testEnv": "export NODE_ENV=auto-test npx playwright test",
     "testUI": "npx playwright test --ui",
     "testAPI": "npx playwright test --grep @api",
-    "testE2E": "npx playwright test --grep @PO",
+    "testE2E": "npx playwright test --grep @e2e",
     "testGET": "npx playwright test --grep @GET",
     "testPOST": "npx playwright test --grep @POST",
     "testPATCH": "npx playwright test --grep @PATCH",

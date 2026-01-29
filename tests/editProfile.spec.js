@@ -10,7 +10,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test('Edit Profile @PO', async ({ page }) => {
+    test('Edit Profile @e2e', async ({ page }) => {
         const settingsPage = new SettingsPage(page);
         await settingsPage.profileEdit();
         await expect(settingsPage.page).toHaveURL(/#\/settings/);

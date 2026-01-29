@@ -84,7 +84,7 @@ jobs:
 
       - name: Run E2E tests
         run: |
-          npx playwright test --grep "@PO" --reporter=allure-playwright,html
+          npx playwright test --grep "@e2e" --reporter=allure-playwright,html
         env:
           ALLURE_RESULTS_PATH: allure-results-e2e
           CI: true

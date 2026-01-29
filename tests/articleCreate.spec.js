@@ -15,7 +15,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test('New Article @PO', async ({ webApp }) => {
+    test('New Article @e2e', async ({ webApp }) => {
         const article = new ArticleBuilder()
             .addTitle()
             .addDescription()
@@ -29,7 +29,7 @@ test.describe('Логин', () => {
     });
 
 
-    test('Check My articles @PO', async ({ webApp }) => {
+    test('Check My articles @e2e', async ({ webApp }) => {
         const article = {
             title: faker.word.adjective(),
             description: faker.word.adjective(),

@@ -18,7 +18,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test('Delete My articles @PO', async ({ page }) => {
+    test('Delete My articles @e2e', async ({ page }) => {
         const article = new ArticleBuilder()
             .addTitle()
             .addDescription()
@@ -38,8 +38,8 @@ test.describe('Логин', () => {
         const locator = myArticlesPage.getArticlePreview(article.title);
         await expect(locator).toHaveText(article.title);
 
-        const editArticte = new ArticleEdit(page);
-        await editArticte.deleteArticle(article);
+        const editArticle = new ArticleEdit(page);
+        await editArticle.deleteArticle(article);
 
         const deletedArticle = new MyArticlesPage(page);
         const locator2 = myArticlesPage.getArticlePreview(article.title);
