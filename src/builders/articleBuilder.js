@@ -18,7 +18,6 @@ export class ArticleBuilder {
         return this;
     }
     generate() {
-        // Деструктуризация убивает неиспользуемые поля
         return { ...this };
     }
 }

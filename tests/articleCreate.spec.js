@@ -15,7 +15,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test.only('New Article @PO', async ({ webApp }) => {
+    test('New Article @PO', async ({ webApp }) => {
         const article = new ArticleBuilder()
             .addTitle()
             .addDescription()
@@ -29,22 +29,22 @@ test.describe('Логин', () => {
     });
 
 
-    test('Check My articles @PO', async ({ page }) => {
+    test('Check My articles @PO', async ({ webApp }) => {
         const article = {
             title: faker.word.adjective(),
             description: faker.word.adjective(),
             text: faker.lorem.lines(3),
             tags: faker.word.adjective(),
         };
-        const newArticle = new ArticleCreation(page);
-        await newArticle.createArticle(article);
+        //const newArticle = new ArticleCreation(page);
+        await webApp.articleCreate.createArticle(article);
 
-        const profile = new ProfilePage(page);
-        await profile.pageProfileopen();
+        //const profile = new ProfilePage(page);
+        await webApp.profilePage.pageProfileopen();
 
-        const myArticlesPage = new MyArticlesPage(page);
-        await myArticlesPage.checkCreatedArticle(article);
-        const locator = myArticlesPage.getArticlePreview(article.title);
+        //const myArticlesPage = new MyArticlesPage(page);
+        await webApp.myArticlesPage.checkCreatedArticle(article);
+        const locator = webApp.myArticlesPage.getArticlePreview(article.title);
         await expect(locator).toHaveText(article.title);
     });
 });
