@@ -223,16 +223,8 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           message: |
-            📦 *Результаты автотестов* 
-            🎯 Репозиторий: ${{ github.repository }}
-            🔄 Ветка: ${{ github.ref_name }}
-            🕐 Время: ${{ github.event.created_at || github.run_started_at }}
-            ✅ Статус: ${{ job.status }}
-            
-            ${{ steps.playwright.conclusion == 'success' && '🟢 Все тесты прошли!' || '🔴 Тесты упали!' }}
-            📊 Пройдено: ${{ env.PASSED }} / ${{ env.TOTAL }}
-
-            🔗 [Посмотреть логи](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            📊 [Посмотреть Allure отчёт](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/allure-report)
-          format: markdown
+            Прогон тестов закончен!
+            Job - ${{ github.job }}.
+            Статус прогона - ${{ job.status }}
+            Ссылка на Allure отчет: ${{ steps.allure_upload.outputs.report_link }}
 

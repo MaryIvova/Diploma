@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
-import { expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { ArticleBuilder } from '../src/builders';
-import { LogInPage, ArticleCreation, MyArticlesPage, ProfilePage } from '../src/pages';
-import { test } from '../src/fixture_PO';
+import { LogInPage, ArticleCreation, MyArticlesPage, ProfilePage } from '../src/pages/index';
+//import { test } from '../src/fixture_PO';
 
 const URL = 'https://realworld.qa.guru';
 
@@ -21,15 +21,14 @@ test.describe('Логин', () => {
             .addTags()
             .generate();
 
+        //await app.articleCreate.createArticle(article);
         const newArticle = new ArticleCreation(page);
         await newArticle.createArticle(article);
         expect(newArticle.articleTT).toBeVisible;
     });
 
-    /* await webApp.articleCreate.createArticle(articleData);
-        expect(webApp.articleCreate.articleTT).toBeVisible;*/
 
-    test('Check My articles @PO', async ({ page }) => {
+    test.only('Check My articles @PO', async ({ page }) => {
         const article = {
             title: faker.word.adjective(),
             description: faker.word.adjective(),
