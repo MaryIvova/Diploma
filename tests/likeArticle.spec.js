@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LogInPage, HomePage, FavoritesPage, ProfilePage } from '../src/pages';
 
 const URL = 'https://realworld.qa.guru';
-const lastPage = 29;
+const lastPage = 30;
 const articleTitle = 'Здесь могла бы быть ваша реклама';
 
 test.describe('Логин', () => {

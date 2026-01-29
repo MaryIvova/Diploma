@@ -7,19 +7,7 @@ import {ArticleBuilder} from "../builders/articleBuilder";
 export const test = base.extend({
     webApp: async ({ page }, use) => {
         const app = new App(page);
-       // await app.base.open();
         await use(app);
     },
 
-    /*articleGenerate: async ({ page }, use) => {
-        let app = new ArticleBuilder(page);
-        const articleData = new UserBuilder()
-            .addTitle()
-            .addDescription()
-            .addText()
-            .addTags()
-            .generate();
-        //	console.log(app);
-        await use(articleData);
-    },*/
 });
