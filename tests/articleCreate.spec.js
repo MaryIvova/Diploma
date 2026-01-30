@@ -36,10 +36,7 @@ test.describe('Логин', () => {
             text: faker.lorem.lines(3),
             tags: faker.word.adjective(),
         };
-        //const newArticle = new ArticleCreation(page);
         await webApp.articleCreate.createArticle(article);
-
-        //const profile = new ProfilePage(page);
         await webApp.profilePage.pageProfileopen();
 
         //const myArticlesPage = new MyArticlesPage(page);

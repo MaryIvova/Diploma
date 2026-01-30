@@ -12,9 +12,11 @@ export class LogInPage {
     async userLogIn() {
         return test.step(`current user log in  `, async (step) => {
             await this.userLogInButton.click();
-            await this.emailField.fill('muravjed@list.ru');
+            const email = process.env.TEST_EMAIL;
+            const password = process.env.TEST_PASSWORD;
+            await this.emailField.fill(email);
             await this.pwdField.click();
-            await this.pwdField.fill('Asdasd,123');
+            await this.pwdField.fill(password);
             await this.loginButton.click();
         });
     }
