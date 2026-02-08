@@ -6,6 +6,5 @@ export class Api {
         this.challenger = new ChallengerService(request);
         this.challenges = new ChallengesService(request);
         this.todos = new ToDosService(request);
-        this.todo = new ToDoService(request);
     }
 }

@@ -9,7 +9,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test.only('Like article from tags @e2e', async ({ page }) => {
+    test('Like article from tags @e2e', async ({ page }) => {
         const homePage = new HomePage(page);
         await homePage.openTag('реклама');
         await expect(homePage.pagination).toBeVisible();
