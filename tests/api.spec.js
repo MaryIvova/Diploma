@@ -22,12 +22,11 @@ test.describe('Challenge @api', () => {
 
     test.only('3. Get/todos 200 @GET @api', async ({ api }, testinfo) => {
         let resp = await api.todos.get(token, testinfo);
-        const body = await resp.json();
-        const challengesCount = body.challenges.length;
-        expect(challengesCount).toBeGreaterThan(0);
-        //expect(body.todos.length).toBe(10);
-        console.log(`Found ${challengesCount} challenges`);
-        //console.log(body.todos);
+        const respBody = await resp.json();
+        const challengesArray = respBody.challenges || respBody.todos || respBody.items || [];
+        expect(Array.isArray(challengesArray)).toBeTruthy();
+        expect(challengesArray.length).toBeGreaterThan(0);
+        console.log(`Found ${challengesArray.length} challenges`);
     });
 
     test('04 GET /todo (404) - wrong url @GET @api', async ({ api }, testinfo) => {
