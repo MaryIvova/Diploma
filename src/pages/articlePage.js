@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { title } from 'process';
 import { MyArticlesPage } from './index';
 
 export class ArticleEdit extends MyArticlesPage {
@@ -27,7 +26,7 @@ export class ArticleEdit extends MyArticlesPage {
       }
 
     async deleteArticle(article) {
-        return test.step(`Create article`, async (step) => {
+        return test.step(`Delete article`, async (step) => {
         const locator = this.getArticlePreview(article.title);
         await locator.click();
         const button = this.buttonDelete;

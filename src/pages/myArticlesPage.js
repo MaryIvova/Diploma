@@ -1,5 +1,4 @@
 import {expect, test} from '@playwright/test';
-import { title } from 'process';
 
 export class MyArticlesPage {
     constructor(page) {

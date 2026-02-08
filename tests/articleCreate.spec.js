@@ -10,7 +10,6 @@ const URL = 'https://realworld.qa.guru';
 
 test.describe('Логин', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto(URL);
         const logInPage = new LogInPage(page);
         await logInPage.userLogIn();
     });
@@ -23,7 +22,6 @@ test.describe('Логин', () => {
             .addTags()
             .generate();
 
-       // let app = new App(page);
         await webApp.articleCreate.createArticle(article);
         expect(webApp.articleCreate.articleTT).toBeVisible;
     });
@@ -39,7 +37,6 @@ test.describe('Логин', () => {
         await webApp.articleCreate.createArticle(article);
         await webApp.profilePage.pageProfileopen();
 
-        //const myArticlesPage = new MyArticlesPage(page);
         await webApp.myArticlesPage.checkCreatedArticle(article);
         const locator = webApp.myArticlesPage.getArticlePreview(article.title);
         await expect(locator).toHaveText(article.title);

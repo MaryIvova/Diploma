@@ -1,23 +1,19 @@
 import { test, expect } from '@playwright/test';
 import { LogInPage, HomePage, FavoritesPage, ProfilePage } from '../src/pages';
 
-const URL = 'https://realworld.qa.guru';
-const lastPage = 30;
 const articleTitle = 'Здесь могла бы быть ваша реклама';
 
 test.describe('Логин', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto(URL);
         const logInPage = new LogInPage(page);
         await logInPage.userLogIn();
     });
 
-    test('Like article from tags @e2e', async ({ page }) => {
+    test.only('Like article from tags @e2e', async ({ page }) => {
         const homePage = new HomePage(page);
         await homePage.openTag('реклама');
         await expect(homePage.pagination).toBeVisible();
-        await homePage.openPage(lastPage, articleTitle);
-        await expect(homePage.article(articleTitle)).toBeVisible();
+        await  homePage.selectPagination();
         await homePage.likeArticle(articleTitle);
         await expect(homePage.likeButton(articleTitle)).toHaveClass(/active/);
 

@@ -4,15 +4,16 @@ export class HomePage {
     constructor(page) {
         this.page = page;
         this.getTagByText = (text) => this.page.locator(`.sidebar button:has-text("${text}")`);
-        this.pagination = page.getByRole('navigation', { name: 'Pagination' });
+        this.pagination = page.locator('.pagination');
+        this.pageItem = (pageNumber) => page.locator(`.pagination .page-link:has-text("${pageNumber}")`)
         this.pageButton = (pageNumber) =>
             this.pagination.locator(`a[role="button"][aria-label="Page ${pageNumber}"]`);
         this.article = (text) => page.locator(`.article-preview:has-text("${text}")`);
         this.likeButton = (title) => this.article(title).locator('button.btn-outline-primary');
-        this.userButton = page.locator('//*[@class="nav-link dropdown-toggle cursor-pointer"]');
-        this.dropDownProfile = page.locator('//*[@class="dropdown-menu"]');
-        this.buttonProfile = page.locator('.ion-person').locator('..');
-        this.favoritesButton = page.locator('//*[text()="Favorited Articles"]');
+    }
+
+    pageButton(pageNumber) {
+        return this.pagination.locator(`a[role="button"][aria-label="Page ${pageNumber}"]`);
     }
 
     async openTag(tag) {
@@ -21,13 +22,26 @@ export class HomePage {
         });
     }
 
-    async openPage(pageNumber, title) {
-        return test.step(`open last page  `, async (step) => {
-            await this.pageButton(pageNumber).click();
-            const activePage = this.pagination.locator(
-                `.page-item.active >> a[aria-label*="Page ${pageNumber}"]`,
-            );
-            await expect(activePage).toBeVisible();
+    async filterPagination() {
+        // Get all page links and extract numbers
+        const pageLinks = this.pagination.locator('.page-link');
+        const count = await pageLinks.count();
+
+        const numbers = [];
+        for (let i = 0; i < count; i++) {
+            const text = await pageLinks.nth(i).textContent();
+            const num = parseInt(text.trim());
+            if (!isNaN(num)) {
+                numbers.push(num);
+            }
+        }
+
+        return numbers.length ? Math.max(...numbers) : 1;
+    }
+
+    async selectPagination () {
+       await this.filterPagination().then(pageCount => {
+            return this.pageItem(pageCount).click();
         });
     }
 

@@ -1,6 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { title } from 'process';
-
+import { test } from '@playwright/test';
 
 export class ArticleCreation {
     constructor(page) {

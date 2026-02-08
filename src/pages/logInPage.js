@@ -1,4 +1,4 @@
-import {expect, test} from '@playwright/test';
+import {test} from '@playwright/test';
 
 export class LogInPage {
     constructor(page) {
@@ -11,6 +11,7 @@ export class LogInPage {
 
     async userLogIn() {
         return test.step(`current user log in  `, async (step) => {
+            await this.page.goto('/');
             await this.userLogInButton.click();
             const email = process.env.TEST_EMAIL;
             const password = process.env.TEST_PASSWORD;

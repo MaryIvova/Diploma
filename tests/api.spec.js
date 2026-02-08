@@ -1,9 +1,8 @@
 import { expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { test } from '../src/API/helpers/index';
-import { ToDosService, ToDoService } from '../src/API/services/index';
+import { ToDosService } from '../src/API/services/index';
 import { ToDoBuilder } from '../src/API/helpers/builder';
-import { json } from 'stream/consumers';
 
 let token;
 
@@ -15,7 +14,7 @@ test.describe('Challenge @api', () => {
         token = headers['x-challenger'];
     });
 
-    test('получить токен @api', async ({ api }, testinfo) => {
+    test('Recieve challenger token @GET @api', async ({ api }, testinfo) => {
         let resp = await api.challenges.get(token, testinfo);
         expect(resp.challenges.length).toBe(59);
         console.log(resp.challenges);

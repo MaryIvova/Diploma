@@ -3,11 +3,8 @@ import { test, expect } from '@playwright/test';
 import { ArticleBuilder } from '../src/builders';
 import { ArticleCreation, MyArticlesPage, ArticleEdit, LogInPage } from '../src/pages';
 
-const URL = 'https://realworld.qa.guru';
-
 test.describe('Логин', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto(URL);
         const logInPage = new LogInPage(page);
         await logInPage.userLogIn();
     });

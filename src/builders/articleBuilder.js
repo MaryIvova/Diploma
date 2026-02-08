@@ -9,11 +9,11 @@ export class ArticleBuilder {
         this.description = faker.word.adjective();
         return this;
     }
-    addText(symbol = 10) {
+    addText() {
         this.text = faker.lorem.lines(3);
         return this;
     }
-    addTags(symbol = 10) {
+    addTags() {
         this.tags = faker.word.adjective();
         return this;
     }
