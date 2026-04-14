@@ -25,7 +25,7 @@ test.describe('Логин', () => {
     });
 
 
-    test.only('Check My articles @e2e', async ({ webApp }) => {
+    test('Check My articles @e2e', async ({ webApp }) => {
         const article = {
             title: faker.word.adjective(),
             description: faker.word.adjective(),
