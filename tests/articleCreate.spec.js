@@ -6,8 +6,6 @@ import { App } from '../src/pages/appFacade';
 import { LogInPage, ArticleCreation, MyArticlesPage, ProfilePage } from '../src/pages/index';
 
 
-const URL = 'https://realworld.qa.guru';
-
 test.describe('Логин', () => {
     test.beforeEach(async ({ page }) => {
         const logInPage = new LogInPage(page);
@@ -27,7 +25,7 @@ test.describe('Логин', () => {
     });
 
 
-    test('Check My articles @e2e', async ({ webApp }) => {
+    test.only('Check My articles @e2e', async ({ webApp }) => {
         const article = {
             title: faker.word.adjective(),
             description: faker.word.adjective(),

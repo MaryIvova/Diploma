@@ -17,10 +17,10 @@ test.describe('Challenge @api', () => {
         let resp = await api.challenges.get(token, testinfo);
         expect(Array.isArray(resp.challenges)).toBe(true);
         expect(resp.challenges.length).toBeGreaterThan(0);
-        //expect(resp.challenges.length).toBe(59);
+
     });
 
-    test.only('3. Get/todos 200 @GET @api', async ({ api }, testinfo) => {
+    test('3. Get/todos 200 @GET @api', async ({ api }, testinfo) => {
         let resp = await api.todos.get(token, testinfo);
         const respBody = await resp.json();
         const challengesArray = respBody.challenges || respBody.todos || respBody.items || [];
