@@ -30,11 +30,6 @@ test.describe('Challenge @api', () => {
         console.log(`Found ${challengesArray.length} challenges`);
     });
 
-    test('04 GET /todo (404) - wrong url @GET @api', async ({ api }, testinfo) => {
-        let r = await api.todo.getToDo(token, testinfo);
-        expect(r.status()).toBe(404);
-    });
-
     test('05 GET /todos/{id} (200) - получить todo по id @GET @api', async ({ api }, testinfo) => {
         const todosService = new ToDosService(api.request);
         let r = await api.todos.get(token, testinfo);

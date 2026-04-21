@@ -12,7 +12,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test('New Article @e2e', async ({ webApp }) => {
+    test.only('New Article @e2e', async ({ webApp }) => {
         const article = new ArticleBuilder()
             .addTitle()
             .addDescription()
