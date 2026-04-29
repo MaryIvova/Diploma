@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from '../src/fixture_PO/index';
 import { ArticleBuilder } from '../src/builders';
 import {
     ArticleCreation,
@@ -15,7 +16,7 @@ test.describe('Логин', () => {
         await logInPage.userLogIn();
     });
 
-    test('Delete My articles @e2e', async ({ page }) => {
+    test.only('Delete My articles @e2e', async ({ webApp }) => {
         const article = new ArticleBuilder()
             .addTitle()
             .addDescription()
@@ -24,24 +25,19 @@ test.describe('Логин', () => {
             .generate();
 
 
-        const newArticle = new ArticleCreation(page);
-        await newArticle.createArticle(article);
+        await webApp.articleCreate.createArticle(article);
+        await webApp.profilePage.pageProfileopen();
 
-        const profile = new ProfilePage(page);
-        await profile.pageProfileopen();
-
-        const myArticlesPage = new MyArticlesPage(page);
-        await myArticlesPage.checkCreatedArticle(article);
-        const locator = myArticlesPage.getArticlePreview(article.title);
+        await webApp.myArticlesPage.checkCreatedArticle(article);
+        const locator = webApp.myArticlesPage.getArticlePreview(article.title);
         await expect(locator).toHaveText(article.title);
 
-        const editArticle = new ArticleEdit(page);
-        await editArticle.deleteArticle(article);
 
-        const deletedArticle = new MyArticlesPage(page);
-        const locator2 = myArticlesPage.getArticlePreview(article.title);
+        await webApp.articleEdit.deleteArticle(article);
+
+        const locator2 = webApp.myArticlesPage.getArticlePreview(article.title);
         await expect(locator2).toHaveText(article.title);
-        await deletedArticle.checkDeletedArticle(article);
+        await webApp.myArticlesPage.checkDeletedArticle(article);
         await expect(locator2).toBeHidden();
     });
 });

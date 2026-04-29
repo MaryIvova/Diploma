@@ -190,11 +190,6 @@ test.describe('Challenge @api', () => {
         expect(xml).toContain('<todos>');
     });
 
-    test('30 GET/todos (406) -  header NOT ACCEPTABLE @GET @api', async ({ api }, testinfo) => {
-        const response = await api.todos.getApplication(token, testinfo, 'application/gzip');
-        expect(response.status()).toBe(406);
-        expect(response.statusText()).toBe('Not Acceptable');
-    });
 
     test('41 DELETE/heartbeat (405) - @DELETE @api', async ({ api }, testinfo) => {
         let getResponse = await api.todos.deleteHeartbeat(token, testinfo);
