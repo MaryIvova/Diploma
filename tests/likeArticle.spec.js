@@ -3,7 +3,7 @@ import { LogInPage, HomePage, FavoritesPage, ProfilePage } from '../src/pages';
 
 const articleTitle = 'Здесь могла бы быть ваша реклама';
 
-test.describe('Логин', () => {
+test.describe('LogIn', () => {
     test.beforeEach(async ({ page }) => {
         const logInPage = new LogInPage(page);
         await logInPage.userLogIn();

@@ -5,38 +5,31 @@ import { ArticleBuilder } from '../src/builders';
 import { App } from '../src/pages/appFacade';
 import { LogInPage, ArticleCreation, MyArticlesPage, ProfilePage } from '../src/pages/index';
 
+test.describe('LogIn', () => {
+  test.beforeEach(async ({ page }) => {
+    const logInPage = new LogInPage(page);
+    await logInPage.userLogIn();
+  });
 
-test.describe('Логин', () => {
-    test.beforeEach(async ({ page }) => {
-        const logInPage = new LogInPage(page);
-        await logInPage.userLogIn();
-    });
+  test('New Article @e2e', async ({ webApp }) => {
+    const article = new ArticleBuilder().addTitle().addDescription().addText().addTags().generate();
 
-    test('New Article @e2e', async ({ webApp }) => {
-        const article = new ArticleBuilder()
-            .addTitle()
-            .addDescription()
-            .addText()
-            .addTags()
-            .generate();
+    await webApp.articleCreate.createArticle(article);
+    expect(webApp.articleCreate.articleTT).toBeVisible;
+  });
 
-        await webApp.articleCreate.createArticle(article);
-        expect(webApp.articleCreate.articleTT).toBeVisible;
-    });
+  test('Check My articles @e2e', async ({ webApp }) => {
+    const article = {
+      title: faker.word.adjective(),
+      description: faker.word.adjective(),
+      text: faker.lorem.lines(3),
+      tags: faker.word.adjective(),
+    };
+    await webApp.articleCreate.createArticle(article);
+    await webApp.profilePage.pageProfileopen();
 
-
-    test('Check My articles @e2e', async ({ webApp }) => {
-        const article = {
-            title: faker.word.adjective(),
-            description: faker.word.adjective(),
-            text: faker.lorem.lines(3),
-            tags: faker.word.adjective(),
-        };
-        await webApp.articleCreate.createArticle(article);
-        await webApp.profilePage.pageProfileopen();
-
-        await webApp.myArticlesPage.checkCreatedArticle(article);
-        const locator = webApp.myArticlesPage.getArticlePreview(article.title);
-        await expect(locator).toHaveText(article.title);
-    });
+    await webApp.myArticlesPage.checkCreatedArticle(article);
+    const locator = webApp.myArticlesPage.getArticlePreview(article.title);
+    await expect(locator).toHaveText(article.title);
+  });
 });
