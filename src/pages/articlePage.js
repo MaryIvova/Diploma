@@ -14,10 +14,9 @@ export class ArticleEdit extends MyArticlesPage {
     return this.page.locator(`//*[text()='${text}']`);
   };
   async editCreatedArticle(article) {
-    return test.step(`Edite articled article`, async (step) => {
+    return test.step(`Edit created article`, async (step) => {
       const locator = this.getArticlePreview(article.title);
       await locator.click();
-      //await expect(this.buttonEdit).toBeVisible();
       await this.buttonEdit.click();
       await this.articleDescription2.click();
       await this.articleDescription2.fill(article.description);
