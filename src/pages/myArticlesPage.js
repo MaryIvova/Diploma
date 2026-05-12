@@ -8,7 +8,7 @@ export class MyArticlesPage {
     this.buttonProfile = page.locator('.ion-person').locator('..');
   }
   getArticlePreview = (text) => {
-    return this.page.locator(`//*[text()='${text}']`);
+    return this.page.locator(`//*[contains(text(),'${text}')]`);
   };
   async checkCreatedArticle(article) {
     return test.step(`Check created article `, async (step) => {

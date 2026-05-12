@@ -10,7 +10,7 @@ test.describe('LogIn', () => {
     await logInPage.userLogIn();
   });
 
-  test.only('Edit My articles @e2e', async ({ webApp }) => {
+  test('Edit My articles @e2e', async ({ webApp }) => {
     const article = new ArticleBuilder().addTitle().addDescription().addText().addTags().generate();
 
     await webApp.articleCreate.createArticle(article);

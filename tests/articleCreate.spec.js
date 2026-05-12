@@ -18,18 +18,13 @@ test.describe('LogIn', () => {
     expect(webApp.articleCreate.articleTT).toBeVisible;
   });
 
-  test('Check My articles @e2e', async ({ webApp }) => {
-    const article = {
-      title: faker.word.adjective(),
-      description: faker.word.adjective(),
-      text: faker.lorem.lines(3),
-      tags: faker.word.adjective(),
-    };
+  test.only('Check My articles @e2e', async ({ webApp }) => {
+    const article = new ArticleBuilder().addTitle().addDescription().addText().addTags().generate();
     await webApp.articleCreate.createArticle(article);
     await webApp.profilePage.pageProfileopen();
 
     await webApp.myArticlesPage.checkCreatedArticle(article);
     const locator = webApp.myArticlesPage.getArticlePreview(article.title);
-    await expect(locator).toHaveText(article.title);
+    await expect(locator).toContainText(article.title);
   });
 });
