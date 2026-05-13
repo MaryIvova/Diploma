@@ -1,4 +1,4 @@
-pipline {
+pipeline {
   agent any
   stages{
   stage('e2e-tests') {
@@ -12,5 +12,6 @@ pipline {
      }
     }
   }
+ }
 }
 
