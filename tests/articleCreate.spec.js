@@ -16,7 +16,7 @@ test.describe('Article: Create', () => {
     await expect(webApp.articleCreate.articleTT).toBeVisible();
   });
 
-  test.only('Check My articles @e2e', async ({ webApp }) => {
+  test('Check My articles @e2e', async ({ webApp }) => {
     const article = new ArticleBuilder().addTitle().addDescription().addText().addTags().generate();
     await webApp.articleCreate.createArticle(article);
     await webApp.profilePage.pageProfileopen();

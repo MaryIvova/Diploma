@@ -10,26 +10,26 @@ test.describe('Article: Like/Unlike', () => {
     await webApp.loginPage.userLogIn();
   });
 
-  test('Like article from tags @e2e', async ({ page }) => {
-    const homePage = new HomePage(page);
-    await homePage.openTag('реклама');
-    await expect(homePage.pagination).toBeVisible();
-    await homePage.selectPagination();
-    await homePage.likeArticle(articleTitle);
-    await expect(homePage.likeButton(articleTitle)).toHaveClass(/active/);
+  test.only('Like article from tags @e2e', async ({ webApp }) => {
+    //const homePage = new HomePage(page);
+    await webApp.homePage.openTag('реклама');
+    await expect(webApp.homePage.pagination).toBeVisible();
+    await webApp.homePage.selectPagination();
+    await webApp.homePage.likeArticle(articleTitle);
+    await expect(webApp.homePage.likeButton(articleTitle)).toHaveClass(/active/);
 
-    const profile = new ProfilePage(page);
-    await profile.pageProfileopen();
+    //const profile = new ProfilePage(page);
+    await webApp.profilePage.pageProfileopen();
 
-    const favorites = new FavoritesPage(page);
-    await favorites.checkFavorites(articleTitle);
-    await expect(favorites.article(articleTitle)).toBeVisible();
-    await expect(favorites.likeButton(articleTitle)).toHaveClass(/active/);
+    //const favorites = new FavoritesPage(page);
+    await webApp.favoritesPage.checkFavorites(articleTitle);
+    await expect(webApp.favoritesPage.article(articleTitle)).toBeVisible();
+    await expect(webApp.favoritesPage.likeButton(articleTitle)).toHaveClass(/active/);
   });
 
-  test.afterEach('unlike article', async ({ page }) => {
-    const notFavorites = new FavoritesPage(page);
-    await notFavorites.unLikeArticle(articleTitle);
-    await expect(notFavorites.likeButton(articleTitle)).not.toHaveClass(/active/);
+  test.afterEach('unlike article', async ({ webApp }) => {
+    //const notFavorites = new FavoritesPage(page);
+    await webApp.favoritesPage.unLikeArticle(articleTitle);
+    await expect(webApp.favoritesPage.likeButton(articleTitle)).not.toHaveClass(/active/);
   });
 });
