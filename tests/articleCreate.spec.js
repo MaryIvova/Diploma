@@ -3,12 +3,11 @@ import { expect } from '@playwright/test';
 import { test } from '../src/fixture_PO/index';
 import { ArticleBuilder } from '../src/builders';
 import { App } from '../src/pages/appFacade';
-import { LogInPage, ArticleCreation, MyArticlesPage, ProfilePage } from '../src/pages/index';
+
 
 test.describe('LogIn', () => {
-  test.beforeEach(async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.userLogIn();
+  test.beforeEach(async ({ webApp }) => {
+  await webApp.loginPage.userLogIn();
   });
 
   test('New Article @e2e', async ({ webApp }) => {
@@ -18,7 +17,7 @@ test.describe('LogIn', () => {
     expect(webApp.articleCreate.articleTT).toBeVisible;
   });
 
-  test.only('Check My articles @e2e', async ({ webApp }) => {
+  test('Check My articles @e2e', async ({ webApp }) => {
     const article = new ArticleBuilder().addTitle().addDescription().addText().addTags().generate();
     await webApp.articleCreate.createArticle(article);
     await webApp.profilePage.pageProfileopen();

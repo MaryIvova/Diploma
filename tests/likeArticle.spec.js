@@ -4,9 +4,8 @@ import { LogInPage, HomePage, FavoritesPage, ProfilePage } from '../src/pages';
 const articleTitle = 'Здесь могла бы быть ваша реклама';
 
 test.describe('LogIn', () => {
-    test.beforeEach(async ({ page }) => {
-        const logInPage = new LogInPage(page);
-        await logInPage.userLogIn();
+    test.beforeEach(async ({ webApp }) => {
+     await webApp.loginPage.userLogIn();
     });
 
     test('Like article from tags @e2e', async ({ page }) => {

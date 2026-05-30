@@ -3,9 +3,8 @@ import { test } from '../src/fixture_PO/index';
 import { LogInPage, SettingsPage } from '../src/pages';
 
 test.describe('LogIn', () => {
-  test.beforeEach(async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.userLogIn();
+  test.beforeEach(async ({ webApp }) => {
+   await webApp.loginPage.userLogIn();
   });
 
   test('Edit Profile @e2e', async ({ webApp }) => {
