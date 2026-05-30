@@ -12,9 +12,9 @@ export class HomePage {
         this.likeButton = (title) => this.article(title).locator('button.btn-outline-primary');
     }
 
-    pageButton(pageNumber) {
+    /*pageButton(pageNumber) {
         return this.pagination.locator(`a[role="button"][aria-label="Page ${pageNumber}"]`);
-    }
+    }*/
 
     async openTag(tag) {
         return test.step(`Open tag  `, async (step) => {

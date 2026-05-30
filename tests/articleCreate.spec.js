@@ -1,23 +1,22 @@
 import { faker } from '@faker-js/faker';
-import { expect } from '@playwright/test';
-import { test } from '../src/fixture_PO/index';
+//import { expect } from '@playwright/test';
+import { test, expect } from '../src/fixture_PO/index';
 import { ArticleBuilder } from '../src/builders';
 import { App } from '../src/pages/appFacade';
 
-
-test.describe('LogIn', () => {
+test.describe('Article: Create', () => {
   test.beforeEach(async ({ webApp }) => {
-  await webApp.loginPage.userLogIn();
+    await webApp.loginPage.userLogIn();
   });
 
   test('New Article @e2e', async ({ webApp }) => {
     const article = new ArticleBuilder().addTitle().addDescription().addText().addTags().generate();
 
     await webApp.articleCreate.createArticle(article);
-    expect(webApp.articleCreate.articleTT).toBeVisible;
+    await expect(webApp.articleCreate.articleTT).toBeVisible();
   });
 
-  test('Check My articles @e2e', async ({ webApp }) => {
+  test.only('Check My articles @e2e', async ({ webApp }) => {
     const article = new ArticleBuilder().addTitle().addDescription().addText().addTags().generate();
     await webApp.articleCreate.createArticle(article);
     await webApp.profilePage.pageProfileopen();

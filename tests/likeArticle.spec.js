@@ -1,33 +1,35 @@
-import { test, expect } from '@playwright/test';
+//import { test, expect } from '@playwright/test';
+import { test, expect } from '../src/fixture_PO/index';
+import { App } from '../src/pages/appFacade';
 import { LogInPage, HomePage, FavoritesPage, ProfilePage } from '../src/pages';
 
 const articleTitle = 'Здесь могла бы быть ваша реклама';
 
-test.describe('LogIn', () => {
-    test.beforeEach(async ({ webApp }) => {
-     await webApp.loginPage.userLogIn();
-    });
+test.describe('Article: Like/Unlike', () => {
+  test.beforeEach(async ({ webApp }) => {
+    await webApp.loginPage.userLogIn();
+  });
 
-    test('Like article from tags @e2e', async ({ page }) => {
-        const homePage = new HomePage(page);
-        await homePage.openTag('реклама');
-        await expect(homePage.pagination).toBeVisible();
-        await  homePage.selectPagination();
-        await homePage.likeArticle(articleTitle);
-        await expect(homePage.likeButton(articleTitle)).toHaveClass(/active/);
+  test('Like article from tags @e2e', async ({ page }) => {
+    const homePage = new HomePage(page);
+    await homePage.openTag('реклама');
+    await expect(homePage.pagination).toBeVisible();
+    await homePage.selectPagination();
+    await homePage.likeArticle(articleTitle);
+    await expect(homePage.likeButton(articleTitle)).toHaveClass(/active/);
 
-        const profile = new ProfilePage(page);
-        await profile.pageProfileopen();
+    const profile = new ProfilePage(page);
+    await profile.pageProfileopen();
 
-        const favorites = new FavoritesPage(page);
-        await favorites.checkFavorites(articleTitle);
-        await expect(favorites.article(articleTitle)).toBeVisible();
-        await expect(favorites.likeButton(articleTitle)).toHaveClass(/active/);
-    });
+    const favorites = new FavoritesPage(page);
+    await favorites.checkFavorites(articleTitle);
+    await expect(favorites.article(articleTitle)).toBeVisible();
+    await expect(favorites.likeButton(articleTitle)).toHaveClass(/active/);
+  });
 
-    test.afterEach('unlike article', async ({ page }) => {
-        const notFavorites = new FavoritesPage(page);
-        await notFavorites.unLikeArticle(articleTitle);
-        await expect(notFavorites.likeButton(articleTitle)).not.toHaveClass(/active/);
-    });
+  test.afterEach('unlike article', async ({ page }) => {
+    const notFavorites = new FavoritesPage(page);
+    await notFavorites.unLikeArticle(articleTitle);
+    await expect(notFavorites.likeButton(articleTitle)).not.toHaveClass(/active/);
+  });
 });

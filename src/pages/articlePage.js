@@ -30,7 +30,7 @@ export class ArticleEdit extends MyArticlesPage {
       await locator.click();
       const button = this.buttonDelete;
       this.page.once('dialog', (dialog) => {
-        console.log('Dialog message: ${dialog.message()}');
+        console.log(`Dialog message: ${dialog.message()}`);
         dialog.accept();
       });
       await button.click();

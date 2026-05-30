@@ -1,10 +1,11 @@
 import { expect } from '@playwright/test';
 import { test } from '../src/fixture_PO/index';
-import { LogInPage, SettingsPage } from '../src/pages';
+import { App } from '../src/pages/appFacade';
+//import { LogInPage, SettingsPage } from '../src/pages';
 
-test.describe('LogIn', () => {
+test.describe('Profile: Edit Settings', () => {
   test.beforeEach(async ({ webApp }) => {
-   await webApp.loginPage.userLogIn();
+    await webApp.loginPage.userLogIn();
   });
 
   test('Edit Profile @e2e', async ({ webApp }) => {

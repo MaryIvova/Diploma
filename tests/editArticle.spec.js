@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
 import { expect } from '@playwright/test';
 import { test } from '../src/fixture_PO/index';
+import { App } from '../src/pages/appFacade';
 import { ArticleBuilder } from '../src/builders';
-import { ArticleCreation, MyArticlesPage, ArticleEdit, LogInPage } from '../src/pages';
 
-test.describe('LogIn', () => {
+test.describe('Article: Edit', () => {
   test.beforeEach(async ({ webApp }) => {
     await webApp.loginPage.userLogIn();
   });
