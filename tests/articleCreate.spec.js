@@ -1,8 +1,6 @@
 import { faker } from '@faker-js/faker';
-//import { expect } from '@playwright/test';
 import { test, expect } from '../src/fixture_PO/index';
 import { ArticleBuilder } from '../src/builders';
-import { App } from '../src/pages/appFacade';
 
 test.describe('Article: Create', () => {
   test.beforeEach(async ({ webApp }) => {

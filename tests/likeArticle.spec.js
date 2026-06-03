@@ -10,25 +10,21 @@ test.describe('Article: Like/Unlike', () => {
     await webApp.loginPage.userLogIn();
   });
 
-  test.only('Like article from tags @e2e', async ({ webApp }) => {
-    //const homePage = new HomePage(page);
+  test('Like article from tags @e2e', async ({ webApp }) => {
     await webApp.homePage.openTag('реклама');
     await expect(webApp.homePage.pagination).toBeVisible();
     await webApp.homePage.selectPagination();
     await webApp.homePage.likeArticle(articleTitle);
     await expect(webApp.homePage.likeButton(articleTitle)).toHaveClass(/active/);
 
-    //const profile = new ProfilePage(page);
     await webApp.profilePage.pageProfileopen();
 
-    //const favorites = new FavoritesPage(page);
     await webApp.favoritesPage.checkFavorites(articleTitle);
     await expect(webApp.favoritesPage.article(articleTitle)).toBeVisible();
     await expect(webApp.favoritesPage.likeButton(articleTitle)).toHaveClass(/active/);
   });
 
   test.afterEach('unlike article', async ({ webApp }) => {
-    //const notFavorites = new FavoritesPage(page);
     await webApp.favoritesPage.unLikeArticle(articleTitle);
     await expect(webApp.favoritesPage.likeButton(articleTitle)).not.toHaveClass(/active/);
   });
