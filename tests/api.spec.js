@@ -2,6 +2,7 @@ import { expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { test } from '../src/API/helpers/index';
 import { ToDosService } from '../src/API/services/index';
+import { ToDoBuilder } from '../src/API/helpers/builder';
 
 let token;
 

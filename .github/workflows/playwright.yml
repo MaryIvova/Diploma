@@ -2,9 +2,9 @@ name: E2E+API
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
           npx playwright test --grep "@api" --reporter=allure-playwright
         env:
           ALLURE_RESULTS_PATH: allure-results-api
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Upload API test results
         uses: actions/upload-artifact@v4
@@ -70,7 +70,7 @@ jobs:
         env:
           ALLURE_RESULTS_PATH: allure-results-e2e
           CI: true
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Upload E2E test results
         uses: actions/upload-artifact@v4
@@ -123,39 +123,38 @@ jobs:
       - name: Check if results exist
         id: check_results
         run: |
-            API_FILES=$(find test-results/api -name "*.json" -o -name "*.txt" -o -name "*.png" -o -name "*.webm" 2>/dev/null | wc -l)
-            E2E_FILES=$(find test-results/e2e -name "*.json" -o -name "*.txt" -o -name "*.png" -o -name "*.webm" 2>/dev/null | wc -l)
-            TOTAL_FILES=$((API_FILES + E2E_FILES))
-            echo "API files: $API_FILES"
-            echo "E2E files: $E2E_FILES"
-            echo "Total files: $TOTAL_FILES"
-            
-            if [ $TOTAL_FILES -eq 0 ]; then
-              echo "No test results found"
-              echo "has_results=false" >> $GITHUB_OUTPUT
-            else
-              echo "has_results=true" >> $GITHUB_OUTPUT
-            fi    
+          API_FILES=$(find test-results/api -name "*.json" -o -name "*.txt" -o -name "*.png" -o -name "*.webm" 2>/dev/null | wc -l)
+          E2E_FILES=$(find test-results/e2e -name "*.json" -o -name "*.txt" -o -name "*.png" -o -name "*.webm" 2>/dev/null | wc -l)
+          TOTAL_FILES=$((API_FILES + E2E_FILES))
+          echo "API files: $API_FILES"
+          echo "E2E files: $E2E_FILES"
+          echo "Total files: $TOTAL_FILES"
+
+          if [ $TOTAL_FILES -eq 0 ]; then
+            echo "No test results found"
+            echo "has_results=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_results=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Merge Allure results
         if: steps.check_results.outputs.has_results == 'true'
         run: |
-            mkdir -p allure-results
-            # Копируем результаты только если они существуют
-            if [ -d "test-results/api" ]; then
-              find test-results/api -name "*.json" -exec cp {} allure-results/ \;
-              find test-results/api -name "*.txt" -exec cp {} allure-results/ \;
-              find test-results/api -name "*.png" -exec cp {} allure-results/ \;
-              find test-results/api -name "*.webm" -exec cp {} allure-results/ \;
-            fi
-            
-            if [ -d "test-results/e2e" ]; then
-              find test-results/e2e -name "*.json" -exec cp {} allure-results/ \;
-              find test-results/e2e -name "*.txt" -exec cp {} allure-results/ \;
-              find test-results/e2e -name "*.png" -exec cp {} allure-results/ \;
-              find test-results/e2e -name "*.webm" -exec cp {} allure-results/ \;
-            fi
-      
+          mkdir -p allure-results
+          # Копируем результаты только если они существуют
+          if [ -d "test-results/api" ]; then
+            find test-results/api -name "*.json" -exec cp {} allure-results/ \;
+            find test-results/api -name "*.txt" -exec cp {} allure-results/ \;
+            find test-results/api -name "*.png" -exec cp {} allure-results/ \;
+            find test-results/api -name "*.webm" -exec cp {} allure-results/ \;
+          fi
+
+          if [ -d "test-results/e2e" ]; then
+            find test-results/e2e -name "*.json" -exec cp {} allure-results/ \;
+            find test-results/e2e -name "*.txt" -exec cp {} allure-results/ \;
+            find test-results/e2e -name "*.png" -exec cp {} allure-results/ \;
+            find test-results/e2e -name "*.webm" -exec cp {} allure-results/ \;
+          fi
 
       - name: Generate Allure report
         run: |
@@ -209,4 +208,3 @@ jobs:
             Job - ${{ github.job }}.
             Статус прогона - ${{ job.status }}
             Ссылка на Allure отчет: ${{ steps.allure_upload.outputs.report_link }}
-
